@@ -1,0 +1,20 @@
+{
+  "projectName": "Multi-Tenant SaaS Platform",
+  "description": "Dockerized multi-tenant SaaS application with authentication, RBAC, and tenant isolation",
+  "testCredentials": {
+    "superAdmin": {
+      "email": "admin@demo.com",
+      "password": "Admin@123"
+    },
+    "tenantAdmin": {
+      "email": "admin@demo.com",
+      "password": "Admin@123",
+      "tenantSubdomain": "demo"
+    }
+  },
+  "ports": {
+    "database": 5432,
+    "backend": 5000,
+    "frontend": 3000
+  }
+}
