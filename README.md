@@ -1,214 +1,86 @@
 # Multi-Tenant SaaS Platform
 
-A fully dockerized, multi-tenant SaaS application built with **Node.js, Express, PostgreSQL, and React**.  
-The system supports **authentication, role-based access control (RBAC), tenant data isolation, automatic database initialization, and seed data loading**, all runnable with a single Docker command.
-
----
+Dockerized multi-tenant SaaS application built with Node.js, Express, PostgreSQL, and React. The project now includes the full evaluator-facing API surface, tenant-scoped authentication, working project and user creation flows in the UI, and explicit database schema documentation.
 
 ## Features
+- Tenant registration with automatic tenant admin provisioning
+- JWT authentication with tenant-aware login
+- Role-based access control for super admins, tenant admins, and users
+- Tenant management, user management, project CRUD, and task updates
+- Protected React routes with dashboard, projects, project detail, and users pages
+- Docker Compose startup for database, backend, and frontend
+- Automatic schema migration and seed data on backend start
+- Health check endpoint for automated evaluation
 
-- Multi-tenant architecture with strict tenant data isolation
-- JWT-based authentication and authorization
-- Password hashing using bcrypt
-- Role-Based Access Control (Super Admin, Tenant Admin, User)
-- Project and task management per tenant
-- Fully dockerized (database, backend, frontend)
-- Automatic database migrations and seed data loading
-- Health check endpoint for evaluation
-- Persistent database storage using Docker volumes
-- Production-ready frontend served via Nginx
+## Architecture
+- Frontend: React SPA served through Nginx on port `3000`
+- Backend: Express API on port `5000`
+- Database: PostgreSQL on port `5432`
+- Multi-tenancy model: shared database with `tenant_id` filtering on tenant-owned records
 
----
+Diagrams:
+- System architecture: `docs/images/system-architecture.png`
+- Database ERD: `docs/images/database-erd.png`
 
-## System Architecture
-
-**Frontend**
-- React application
-- Protected routes using JWT
-- Role-based UI rendering
-
-**Backend**
-- Node.js + Express
-- JWT authentication
-- bcrypt password hashing
-- Tenant isolation enforced at query level
-
-**Database**
-- PostgreSQL
-- Automatic migrations and seed data
-- Persistent Docker volume
-
----
-
-## Dockerized Setup (MANDATORY)
-
-### Prerequisites
-- Docker
-- Docker Compose
-
-### Start the Application
+## Quick Start
 ```bash
-docker-compose up -d
+docker compose up --build -d
 ```
 
-This command will:
-- Start PostgreSQL database
-- Run backend migrations automatically
-- Load seed data automatically
-- Start backend API server
-- Build and serve frontend application
+Open:
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend: [http://localhost:5000](http://localhost:5000)
+- Health check: [http://localhost:5000/api/health](http://localhost:5000/api/health)
 
-### Stop the Application
+Stop the stack:
 ```bash
-docker-compose down
+docker compose down
 ```
 
-### Reset Database (if needed)
+Reset the database:
 ```bash
-docker-compose down -v
-docker-compose up -d
+docker compose down -v
+docker compose up --build -d
 ```
 
----
+## Seed Credentials
+### Tenant Admin
+- Email: `admin@demo.com`
+- Password: `Admin@123`
+- Tenant subdomain: `demo`
 
-## Service Ports
+### Super Admin
+- Email: `superadmin@platform.dev`
+- Password: `SuperAdmin@123`
 
-| Service  | External Port | Internal Port |
-| -------- | ------------- | ------------- |
-| Database | 5432          | 5432          |
-| Backend  | 5000          | 5000          |
-| Frontend | 3000          | 3000          |
+## Key Endpoints
+- `POST /api/auth/register-tenant`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+- `GET /api/tenants`
+- `POST /api/tenants/:tenantId/users`
+- `GET /api/projects`
+- `POST /api/projects/:projectId/tasks`
+- `PATCH /api/tasks/:taskId/status`
 
----
-
-## Authentication & Seed Credentials
-
-All seed data is **automatically loaded** at startup.
-
-### Tenant Admin (Seeded)
-```
-Email: admin@demo.com
-Password: Admin@123
-```
-
-Use these credentials to log in via:
-```
-http://localhost:3000/login
-```
-
----
-
-## Health Check Endpoint
-
-Used for automated evaluation:
-```http
-GET http://localhost:5000/api/health
-```
-
-Response:
-```json
-{
-  "status": "ok",
-  "database": "connected"
-}
-```
-
----
-
-## API Documentation
-
-Complete API documentation is available at:
-```
-docs/API.md
-```
-
-All protected endpoints require:
-```
-Authorization: Bearer <JWT_TOKEN>
-```
-
----
-
-## Project Structure
-```
-.
-├── backend/
-│   ├── src/
-│   │   ├── routes/
-│   │   ├── middleware/
-│   │   ├── utils/
-│   │   ├── config/
-│   │   └── server.js
-│   ├── Dockerfile
-│   └── .env
-├── frontend/
-│   ├── src/
-│   └── Dockerfile
-├── docs/
-│   ├── API.md
-│   ├── architecture.md
-│   ├── PRD.md
-│   ├── research.md
-│   ├── technical-spec.md
-│   └── images/
-├── docker-compose.yml
-├── submission.json
-└── README.md
-```
-
----
-
-## Testing the Application
-
-1. Run `docker-compose up -d`
-2. Open browser: [http://localhost:3000/login](http://localhost:3000/login)
-3. Login using seeded credentials
-4. Verify:
-   - Dashboard shows real data
-   - Projects list is visible
-   - Users list is visible
-   - Tenant isolation is enforced
-
----
-
-## Security Highlights
-
-- Passwords hashed using bcrypt
-- JWT-based stateless authentication
-- Tenant isolation enforced at database query level
-- Role-based authorization middleware
-- SQL injection prevention using parameterized queries
-- Environment variables used for secrets
-
----
+The complete endpoint catalog is documented in `docs/API.md`.
 
 ## Documentation
+- Product requirements: `docs/PRD.md`
+- Research: `docs/research.md`
+- Architecture: `docs/architecture.md`
+- Technical specification: `docs/technical-spec.md`
+- API reference: `docs/API.md`
+- Database schema: `backend/database/schema.sql`
 
-| Document                | Location               |
-| ----------------------- | ---------------------- |
-| API Documentation       | docs/API.md            |
-| Architecture            | docs/architecture.md   |
-| Product Requirements    | docs/PRD.md            |
-| Research & Analysis     | docs/research.md       |
-| Technical Specification | docs/technical-spec.md |
+## Environment Setup
+Reference values live in:
+- `.env.example`
+- `backend/.env.example`
 
----
+Docker Compose includes safe defaults so the project can run without committed secret files.
 
-## Evaluation Checklist
-
-- [x] Dockerized application (3 services)
-- [x] Fixed port mappings
-- [x] Automatic DB migrations
-- [x] Automatic seed data loading
-- [x] JWT authentication
-- [x] Password hashing
-- [x] Tenant isolation
-- [x] Role-based access control
-- [x] Health check endpoint
-- [x] Complete documentation
-
----
-
-## Conclusion
-
-This project demonstrates a **production-ready multi-tenant SaaS architecture** with strong emphasis on security, scalability, and reproducibility using Docker.
+## Submission Notes
+- `submission.json` includes backend/frontend URLs and test credentials
+- The repository now includes `.gitignore`, database schema assets, and evaluator-ready docs
+- Demo video link still needs to be recorded and added before final submission

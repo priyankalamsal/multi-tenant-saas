@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader) {
-    return res.status(401).json({ message: "No token provided" });
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Authorization token is required" });
   }
 
   const token = authHeader.split(" ")[1];
@@ -27,4 +27,8 @@ function requireRole(roles = []) {
   };
 }
 
-module.exports = { authMiddleware, requireRole };
+function canAccessTenant(user, tenantId) {
+  return Boolean(user) && (user.role === "super_admin" || user.tenantId === tenantId);
+}
+
+module.exports = { authMiddleware, canAccessTenant, requireRole };
