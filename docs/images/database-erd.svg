@@ -1,0 +1,56 @@
+<svg width="1280" height="760" viewBox="0 0 1280 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="760" rx="32" fill="#EEF4FB"/>
+  <text x="74" y="90" fill="#161515" font-family="Arial, sans-serif" font-size="34" font-weight="700">Database ERD</text>
+  <text x="74" y="128" fill="#5D6771" font-family="Arial, sans-serif" font-size="20">Shared PostgreSQL schema with explicit tenant relationships and cascade cleanup for owned data.</text>
+
+  <rect x="80" y="190" width="260" height="220" rx="22" fill="#FFFFFF" stroke="#D5DCE3" stroke-width="2"/>
+  <rect x="80" y="190" width="260" height="56" rx="22" fill="#FFF0E6"/>
+  <text x="112" y="226" fill="#A6482B" font-family="Arial, sans-serif" font-size="26" font-weight="700">tenants</text>
+  <text x="110" y="284" fill="#161515" font-family="Arial, sans-serif" font-size="18">PK id UUID</text>
+  <text x="110" y="316" fill="#161515" font-family="Arial, sans-serif" font-size="18">name TEXT</text>
+  <text x="110" y="348" fill="#161515" font-family="Arial, sans-serif" font-size="18">subdomain TEXT UNIQUE</text>
+  <text x="110" y="380" fill="#161515" font-family="Arial, sans-serif" font-size="18">status TEXT</text>
+
+  <rect x="510" y="120" width="290" height="280" rx="22" fill="#FFFFFF" stroke="#D5DCE3" stroke-width="2"/>
+  <rect x="510" y="120" width="290" height="56" rx="22" fill="#E8F9FB"/>
+  <text x="544" y="156" fill="#136676" font-family="Arial, sans-serif" font-size="26" font-weight="700">users</text>
+  <text x="540" y="214" fill="#161515" font-family="Arial, sans-serif" font-size="18">PK id UUID</text>
+  <text x="540" y="246" fill="#161515" font-family="Arial, sans-serif" font-size="18">full_name TEXT</text>
+  <text x="540" y="278" fill="#161515" font-family="Arial, sans-serif" font-size="18">email TEXT UNIQUE</text>
+  <text x="540" y="310" fill="#161515" font-family="Arial, sans-serif" font-size="18">password TEXT</text>
+  <text x="540" y="342" fill="#161515" font-family="Arial, sans-serif" font-size="18">role TEXT</text>
+  <text x="540" y="374" fill="#161515" font-family="Arial, sans-serif" font-size="18">FK tenant_id UUID nullable</text>
+
+  <rect x="510" y="460" width="290" height="240" rx="22" fill="#FFFFFF" stroke="#D5DCE3" stroke-width="2"/>
+  <rect x="510" y="460" width="290" height="56" rx="22" fill="#FFF6DE"/>
+  <text x="544" y="496" fill="#8B661D" font-family="Arial, sans-serif" font-size="26" font-weight="700">projects</text>
+  <text x="540" y="554" fill="#161515" font-family="Arial, sans-serif" font-size="18">PK id UUID</text>
+  <text x="540" y="586" fill="#161515" font-family="Arial, sans-serif" font-size="18">FK tenant_id UUID</text>
+  <text x="540" y="618" fill="#161515" font-family="Arial, sans-serif" font-size="18">name TEXT</text>
+  <text x="540" y="650" fill="#161515" font-family="Arial, sans-serif" font-size="18">description TEXT</text>
+  <text x="540" y="682" fill="#161515" font-family="Arial, sans-serif" font-size="18">status TEXT</text>
+
+  <rect x="930" y="290" width="280" height="280" rx="22" fill="#FFFFFF" stroke="#D5DCE3" stroke-width="2"/>
+  <rect x="930" y="290" width="280" height="56" rx="22" fill="#EDF1FF"/>
+  <text x="964" y="326" fill="#3D4AAE" font-family="Arial, sans-serif" font-size="26" font-weight="700">tasks</text>
+  <text x="960" y="384" fill="#161515" font-family="Arial, sans-serif" font-size="18">PK id UUID</text>
+  <text x="960" y="416" fill="#161515" font-family="Arial, sans-serif" font-size="18">FK tenant_id UUID</text>
+  <text x="960" y="448" fill="#161515" font-family="Arial, sans-serif" font-size="18">FK project_id UUID</text>
+  <text x="960" y="480" fill="#161515" font-family="Arial, sans-serif" font-size="18">title TEXT</text>
+  <text x="960" y="512" fill="#161515" font-family="Arial, sans-serif" font-size="18">status TEXT</text>
+  <text x="960" y="544" fill="#161515" font-family="Arial, sans-serif" font-size="18">priority TEXT</text>
+
+  <path d="M340 280H470" stroke="#A6482B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M444 256L482 280L444 304" stroke="#A6482B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="362" y="248" fill="#A6482B" font-family="Arial, sans-serif" font-size="18" font-weight="700">1 to many</text>
+
+  <path d="M340 360C424 360 430 580 510 580" stroke="#A6482B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M470 556L518 580L470 604" stroke="#A6482B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="336" y="520" fill="#A6482B" font-family="Arial, sans-serif" font-size="18" font-weight="700">1 to many</text>
+
+  <path d="M800 580H890" stroke="#8B661D" stroke-width="6" stroke-linecap="round"/>
+  <path d="M864 556L902 580L864 604" stroke="#8B661D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="822" y="548" fill="#8B661D" font-family="Arial, sans-serif" font-size="18" font-weight="700">1 to many</text>
+
+  <text x="80" y="720" fill="#5D6771" font-family="Arial, sans-serif" font-size="18">Users can be global super admins or tenant-bound members. Projects and tasks are deleted with their tenant-owned parent records.</text>
+</svg>

@@ -1,7 +1,14 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+
+import { getToken } from "../services/api";
 
 export default function PrivateRoute({ children }) {
-  const token = localStorage.getItem("token");
-  return token ? children : <Navigate to="/login" />;
+  const location = useLocation();
+
+  if (!getToken()) {
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  }
+
+  return children || <Outlet />;
 }

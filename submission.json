@@ -1,10 +1,15 @@
 {
   "projectName": "Multi-Tenant SaaS Platform",
   "description": "Dockerized multi-tenant SaaS application with authentication, RBAC, and tenant isolation",
+  "backendUrl": "http://localhost:5000",
+  "frontendUrl": "http://localhost:3000",
   "testCredentials": {
+    "email": "admin@demo.com",
+    "password": "Admin@123",
+    "tenantSubdomain": "demo",
     "superAdmin": {
-      "email": "admin@demo.com",
-      "password": "Admin@123"
+      "email": "superadmin@platform.dev",
+      "password": "SuperAdmin@123"
     },
     "tenantAdmin": {
       "email": "admin@demo.com",

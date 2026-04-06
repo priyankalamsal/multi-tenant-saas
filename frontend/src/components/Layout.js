@@ -1,83 +1,61 @@
 import React from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+
+import { clearSession, getStoredSession } from "../services/api";
 
 export default function Layout() {
-  const location = useLocation();
+  const navigate = useNavigate();
+  const session = getStoredSession();
+  const tenantName = session?.tenant?.name || "Current Tenant";
+  const userName = session?.user?.fullName || session?.user?.email || "Workspace User";
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  };
-
-  const navLinkStyle = (path) => ({
-    textDecoration: "none",
-    color: location.pathname === path ? "#2563eb" : "#333",
-    fontWeight: location.pathname === path ? "600" : "400"
-  });
+  function handleLogout() {
+    clearSession();
+    navigate("/login", { replace: true });
+  }
 
   return (
-    <div
-      style={{
-        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont",
-        backgroundColor: "#f8fafc",
-        minHeight: "100vh"
-      }}
-    >
-      {/* NAVBAR */}
-      <nav
-        style={{
-          display: "flex",
-          alignItems: "center",
-          padding: "14px 24px",
-          backgroundColor: "#ffffff",
-          borderBottom: "1px solid #e5e7eb"
-        }}
-      >
-        <h2 style={{ margin: 0, marginRight: 32, color: "#111827" }}>
-          Multi-Tenant SaaS
-        </h2>
+    <div className="app-shell">
+      <header className="topbar">
+        <div className="topbar-inner">
+          <div className="brand-mark">MT</div>
 
-        <div style={{ display: "flex", gap: 20 }}>
-          <Link to="/" style={navLinkStyle("/")}>Dashboard</Link>
-          <Link to="/projects" style={navLinkStyle("/projects")}>Projects</Link>
-          <Link to="/users" style={navLinkStyle("/users")}>Users</Link>
+          <div className="brand-copy">
+            <span className="eyebrow">Tenant Workspace</span>
+            <strong>Multi-Tenant SaaS Control Center</strong>
+          </div>
+
+          <nav className="nav-links">
+            <NavLink to="/" end className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}>
+              Dashboard
+            </NavLink>
+            <NavLink
+              to="/projects"
+              className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}
+            >
+              Projects
+            </NavLink>
+            <NavLink
+              to="/users"
+              className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}
+            >
+              Users
+            </NavLink>
+
+            <div className="topbar-user">
+              <strong>{tenantName}</strong>
+              <span>{userName}</span>
+            </div>
+
+            <button className="button ghost" onClick={handleLogout}>
+              Logout
+            </button>
+          </nav>
         </div>
+      </header>
 
-        <div style={{ flex: 1 }} />
-
-        <button
-          onClick={logout}
-          style={{
-            background: "#ef4444",
-            color: "#fff",
-            border: "none",
-            padding: "6px 12px",
-            borderRadius: 6,
-            cursor: "pointer"
-          }}
-        >
-          Logout
-        </button>
-      </nav>
-
-      {/* CONTENT */}
-      <main
-        style={{
-          padding: 24,
-          maxWidth: 1100,
-          margin: "0 auto"
-        }}
-      >
-        <div
-          style={{
-            background: "#ffffff",
-            borderRadius: 8,
-            padding: 24,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.08)"
-          }}
-        >
-          <Outlet />
-        </div>
+      <main className="page-shell">
+        <Outlet />
       </main>
     </div>
   );

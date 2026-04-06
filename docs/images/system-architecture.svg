@@ -1,0 +1,50 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="720" rx="32" fill="#F6F1E7"/>
+  <rect x="60" y="60" width="1160" height="600" rx="28" fill="#FFFDF8" stroke="#E7DED3" stroke-width="2"/>
+  <text x="100" y="118" fill="#1A1717" font-family="Arial, sans-serif" font-size="34" font-weight="700">Multi-Tenant SaaS System Architecture</text>
+  <text x="100" y="156" fill="#6F665D" font-family="Arial, sans-serif" font-size="20">Dockerized React + Express + PostgreSQL platform with JWT auth and tenant-isolated data access.</text>
+
+  <rect x="100" y="210" width="280" height="360" rx="24" fill="#FFF4EC" stroke="#E5B18E" stroke-width="2"/>
+  <text x="132" y="258" fill="#A6482B" font-family="Arial, sans-serif" font-size="28" font-weight="700">Frontend</text>
+  <text x="132" y="300" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">React + React Router</text>
+  <text x="132" y="336" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">Protected routes</text>
+  <text x="132" y="372" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">Registration + login</text>
+  <text x="132" y="408" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">Projects, tasks, users UI</text>
+  <text x="132" y="444" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">Axios client with JWT header</text>
+  <rect x="132" y="484" width="212" height="48" rx="16" fill="#FFFFFF"/>
+  <text x="154" y="515" fill="#A6482B" font-family="Arial, sans-serif" font-size="18" font-weight="700">Port 3000 via Nginx</text>
+
+  <rect x="500" y="180" width="320" height="420" rx="24" fill="#EEF8F9" stroke="#93C6CF" stroke-width="2"/>
+  <text x="534" y="228" fill="#136676" font-family="Arial, sans-serif" font-size="28" font-weight="700">Backend API</text>
+  <text x="534" y="270" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">Node.js + Express</text>
+  <text x="534" y="306" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">Routes: auth, tenants, users,</text>
+  <text x="534" y="338" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">projects, tasks</text>
+  <text x="534" y="374" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">JWT auth middleware + RBAC</text>
+  <text x="534" y="410" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">Automatic schema migrations</text>
+  <text x="534" y="446" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">Seeded tenants and admin users</text>
+  <text x="534" y="482" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">Health check endpoint</text>
+  <rect x="534" y="522" width="214" height="48" rx="16" fill="#FFFFFF"/>
+  <text x="556" y="553" fill="#136676" font-family="Arial, sans-serif" font-size="18" font-weight="700">Port 5000 REST API</text>
+
+  <rect x="940" y="210" width="240" height="360" rx="24" fill="#F3F5FF" stroke="#A8B2E5" stroke-width="2"/>
+  <text x="972" y="258" fill="#3D4AAE" font-family="Arial, sans-serif" font-size="28" font-weight="700">Database</text>
+  <text x="972" y="300" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">PostgreSQL 15</text>
+  <text x="972" y="336" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">tenants</text>
+  <text x="972" y="372" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">users</text>
+  <text x="972" y="408" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">projects</text>
+  <text x="972" y="444" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">tasks</text>
+  <text x="972" y="480" fill="#1A1717" font-family="Arial, sans-serif" font-size="20">Tenant-scoped queries</text>
+  <rect x="972" y="520" width="156" height="48" rx="16" fill="#FFFFFF"/>
+  <text x="995" y="551" fill="#3D4AAE" font-family="Arial, sans-serif" font-size="18" font-weight="700">Port 5432</text>
+
+  <path d="M380 390H472" stroke="#A6482B" stroke-width="8" stroke-linecap="round"/>
+  <path d="M446 366L484 390L446 414" stroke="#A6482B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="394" y="350" fill="#A6482B" font-family="Arial, sans-serif" font-size="18" font-weight="700">HTTPS / REST</text>
+
+  <path d="M820 390H912" stroke="#136676" stroke-width="8" stroke-linecap="round"/>
+  <path d="M886 366L924 390L886 414" stroke="#136676" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="838" y="350" fill="#136676" font-family="Arial, sans-serif" font-size="18" font-weight="700">SQL Queries</text>
+
+  <rect x="490" y="630" width="330" height="16" rx="8" fill="#D55B3D" fill-opacity="0.18"/>
+  <text x="506" y="621" fill="#6F665D" font-family="Arial, sans-serif" font-size="18">All requests are resolved through JWT claims and tenant-aware SQL filters.</text>
+</svg>

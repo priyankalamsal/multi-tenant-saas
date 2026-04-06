@@ -1,91 +1,183 @@
-# API Documentation – Multi-Tenant SaaS Platform
+# API Reference
 
-Base URL:
-http://localhost:5000/api
+Base URL: `http://localhost:5000/api`
 
-All protected endpoints require:
+Protected routes require:
+
+```http
 Authorization: Bearer <JWT_TOKEN>
-
----
+```
 
 ## Authentication
 
-### POST /auth/login
-Login using seeded credentials.
+### POST `/auth/register-tenant`
+Creates a tenant and its first tenant admin.
 
-Request:
+Request body:
+```json
+{
+  "tenantName": "Northwind Labs",
+  "subdomain": "northwind",
+  "adminFullName": "Nina Tenant",
+  "adminEmail": "nina@northwind.com",
+  "adminPassword": "Admin@123"
+}
+```
+
+### POST `/auth/login`
+Authenticates a user with tenant context.
+
+Request body:
+```json
 {
   "email": "admin@demo.com",
-  "password": "Admin@123"
+  "password": "Admin@123",
+  "subdomain": "demo"
 }
+```
 
-Response:
+### GET `/auth/me`
+Returns the authenticated user and tenant metadata.
+
+### POST `/auth/logout`
+Returns a success response for client-side session cleanup.
+
+## Tenant Management
+
+### GET `/tenants`
+Returns all tenants visible to the authenticated user.
+
+### GET `/tenants/:tenantId`
+Returns a tenant summary with aggregate counts.
+
+### PUT `/tenants/:tenantId`
+Updates tenant name, subdomain, or status.
+
+Request body example:
+```json
 {
-  "success": true,
-  "token": "<jwt-token>",
-  "user": {
-    "id": "uuid",
-    "email": "admin@demo.com",
-    "role": "tenant_admin"
-  }
+  "name": "Demo Tenant",
+  "subdomain": "demo",
+  "status": "active"
 }
+```
 
----
+## User Management
 
-## Users (Tenant Admin Only)
+### POST `/tenants/:tenantId/users`
+Creates a user inside a tenant.
 
-### GET /users
-Returns all users belonging to the authenticated tenant.
-
-Response:
+Request body:
+```json
 {
-  "success": true,
-  "data": [
-    { "id": "uuid", "email": "admin@demo.com", "role": "tenant_admin" }
-  ]
+  "fullName": "Alex Member",
+  "email": "alex@demo.com",
+  "password": "Admin@123",
+  "role": "user"
 }
+```
 
----
+### GET `/tenants/:tenantId/users`
+Lists users for the target tenant.
 
-## Projects
+### GET `/users`
+Lists users for the signed-in tenant.
 
-### GET /projects
-Returns all projects for authenticated tenant.
+### PUT `/users/:userId`
+Updates a tenant user.
 
-### POST /projects
-Creates a new project.
-
-Request:
+Request body example:
+```json
 {
-  "name": "New Project"
+  "fullName": "Alex Updated",
+  "role": "tenant_admin",
+  "isActive": true
 }
+```
 
----
+### DELETE `/users/:userId`
+Deletes the target user.
 
-## Tasks
+## Project Management
 
-### GET /tasks
-Returns all tasks for authenticated tenant.
+### GET `/projects`
+Lists tenant projects with task counts.
 
-### POST /tasks
-Creates a new task.
+### POST `/projects`
+Creates a project.
 
-Request:
+Request body:
+```json
 {
-  "title": "Task Name",
-  "status": "completed",
-  "projectId": "uuid"
+  "name": "Demo Launch Plan",
+  "description": "Coordinate tenant rollout work.",
+  "status": "active"
 }
+```
 
----
+### GET `/projects/:projectId`
+Returns a project with nested tasks.
+
+### PUT `/projects/:projectId`
+Updates project details.
+
+### DELETE `/projects/:projectId`
+Deletes a project and its tasks.
+
+## Task Management
+
+### POST `/projects/:projectId/tasks`
+Creates a task under a project.
+
+Request body:
+```json
+{
+  "title": "Prepare onboarding checklist",
+  "description": "Collect the first-run steps.",
+  "status": "todo",
+  "priority": "high",
+  "assigneeId": "optional-user-id"
+}
+```
+
+### GET `/projects/:projectId/tasks`
+Lists tasks for a project.
+
+### GET `/tasks`
+Lists tenant tasks across projects.
+
+### PATCH `/tasks/:taskId/status`
+Updates only the task status.
+
+Request body:
+```json
+{
+  "status": "completed"
+}
+```
+
+### PUT `/tasks/:taskId`
+Updates task metadata.
+
+Request body example:
+```json
+{
+  "title": "Updated task title",
+  "description": "Updated details",
+  "status": "in_progress",
+  "priority": "medium"
+}
+```
 
 ## Health Check
 
-### GET /health
-Returns application health.
+### GET `/health`
+Returns application and database status.
 
 Response:
+```json
 {
   "status": "ok",
   "database": "connected"
 }
+```
